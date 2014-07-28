@@ -1,0 +1,6 @@
+[package]
+
+name = "hostname"
+version = "0.1.0"
+authors = ["drrb <drrrrrrrrrrrb@gmail.com>"]
+
