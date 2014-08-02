@@ -19,21 +19,36 @@ fn main() {
     os::set_exit_status(exit_status);
 }
 
+
+fn print_usage(program: &String, options: &[OptGroup]) {
+    let instructions = format!("Usage: {} [options] [HOSTNAME]", program);
+    println!("{}", usage(instructions.as_slice(), options));
+}
+
 fn run(args: Vec<String>) -> int {
     let program = &args[0];
 
-    let options = [
-        optflag("V", "version", "Print the version number and exit")
+    let parameters = [
+        optflag("V", "version", "Print the version number and exit"),
+        optflag("h", "help", "Print this help message")
     ];
 
-    let matches = getopts(args.tail(), options).unwrap();
+    let options = match getopts(args.tail(), parameters) {
+        Ok(options) => { options },
+        Err(failure) => { fail!(failure.to_string()) }
+    };
 
-    if matches.opt_present("V") {
+    if options.opt_present("h") {
+        print_usage(program, parameters);
+        return 0;
+    }
+
+    if options.opt_present("V") {
         println!("hostname 1.0.0");
         return 0;
     }
 
-    if matches.free.len() == 1 {
+    if options.free.len() == 1 {
         stdio::stderr().write("hostname: you must be root to change the host name\n".as_bytes());
         return 1;
     }
