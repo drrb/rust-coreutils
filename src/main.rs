@@ -19,17 +19,21 @@ fn main() {
     os::set_exit_status(exit_status);
 }
 
-fn print_usage(program: &String, options: &[OptGroup]) {
-    let instructions = format!("Usage: {} [options] [HOSTNAME]", program);
-    println!("{}", usage(instructions.as_slice(), options));
+fn println(message: String) {
+    println!("{}", message);
 }
 
-fn err_println(message: &str) {
+fn err_println(message: String) {
     let result = stdio::stderr().write(message.as_bytes());
     match result {
         Ok(_) => (),
         Err(failure) => fail!(format!("Failed to write to stderr: {}", failure))
     }
+}
+
+fn usage_message(program: &String, options: &[OptGroup]) -> String {
+    let instructions = format!("Usage: {} [options] [HOSTNAME]", program);
+    usage(instructions.as_slice(), options)
 }
 
 fn run(args: Vec<String>) -> int {
@@ -41,12 +45,12 @@ fn run(args: Vec<String>) -> int {
     ];
 
     let options = match getopts(args.tail(), parameters) {
-        Ok(options) => { options },
-        Err(failure) => { fail!(failure.to_string()) }
+        Ok(options) => options,
+        Err(failure) => fail!(failure.to_string())
     };
 
     if options.opt_present("h") {
-        print_usage(program, parameters);
+        println(usage_message(program, parameters));
         return 0;
     }
 
@@ -56,22 +60,24 @@ fn run(args: Vec<String>) -> int {
     }
 
     if options.free.len() == 1 {
-        err_println("hostname: you must be root to change the host name\n");
+        err_println("hostname: you must be root to change the host name\n".to_string());
         return 1;
     }
 
-    let hostname = get_hostname();
-    println!("{}", hostname);
+    match get_hostname() {
+        Ok(hostname) => println(hostname),
+        Err(error) => err_println(error)
+    }
     return 0;
 }
 
-fn get_hostname() -> String {
+fn get_hostname() -> Result<String, String> {
     let mut name = String::with_capacity(HOSTNAME_MAX_LENGTH).to_c_str();
 
     let result = unsafe { gethostname(name.as_mut_ptr(), HOSTNAME_MAX_LENGTH as size_t) };
     if result == 0 {
-        name.to_string()
+        Ok(name.to_string())
     } else {
-        fail!("Failed to get hostname")
+        Err("Failed to get hostname".to_string())
     }
 }

@@ -15,7 +15,7 @@ class Array
     if size == 1
       first.to_s
     else
-      [a[0..-2].join(", "), a[-1]].join(" and ")
+      [self[0..-2].join(", "), self[-1]].join(" and ")
     end
   end
 end
