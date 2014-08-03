@@ -1,5 +1,3 @@
-#![crate_name = "hostname"]
-
 extern crate getopts;
 extern crate libc;
 

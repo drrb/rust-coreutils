@@ -1,6 +1,17 @@
 [package]
 
-name = "hostname"
+name = "coreutils"
 version = "0.1.0"
 authors = ["drrb <drrrrrrrrrrrb@gmail.com>"]
 
+[[bin]]
+name = "false"
+path = "src/false.rs"
+
+[[bin]]
+name = "hostname"
+path = "src/hostname.rs"
+
+[[bin]]
+name = "true"
+path = "src/true.rs"

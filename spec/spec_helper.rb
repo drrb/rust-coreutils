@@ -119,9 +119,5 @@ def run(command)
   pid, stdin, stdout, stderr = Open4.popen4(command)
   ignored, status = Process::waitpid2 pid
   return [ stdout.read, stderr.read, status.exitstatus ]
-ensure
-  stdin.close
-  stdout.close
-  stderr.close
 end
 
