@@ -1,6 +1,3 @@
 language: ruby
 before_script:
-  - curl -O http://static.rust-lang.org/dist/rust-nightly-x86_64-unknown-linux-gnu.tar.gz
-  - tar -zxf rust-nightly-x86_64-unknown-linux-gnu.tar.gz
-  - (cd rust-nightly-x86_64-unknown-linux-gnu/ && sudo ./install.sh)
-  - echo $PATH
+  - curl www.rust-lang.org/rustup.sh | sudo bash
