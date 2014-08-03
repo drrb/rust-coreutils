@@ -19,10 +19,17 @@ fn main() {
     os::set_exit_status(exit_status);
 }
 
-
 fn print_usage(program: &String, options: &[OptGroup]) {
     let instructions = format!("Usage: {} [options] [HOSTNAME]", program);
     println!("{}", usage(instructions.as_slice(), options));
+}
+
+fn err_println(message: &str) {
+    let result = stdio::stderr().write(message.as_bytes());
+    match result {
+        Ok(_) => (),
+        Err(failure) => fail!(format!("Failed to write to stderr: {}", failure))
+    }
 }
 
 fn run(args: Vec<String>) -> int {
@@ -49,25 +56,22 @@ fn run(args: Vec<String>) -> int {
     }
 
     if options.free.len() == 1 {
-        stdio::stderr().write("hostname: you must be root to change the host name\n".as_bytes());
+        err_println("hostname: you must be root to change the host name\n");
         return 1;
     }
 
-    let result = get_hostname();
-    println!("{}", result.unwrap());
-    match result {
-        Ok(_) => 0,
-        Err(_) => 1,
-    }
+    let hostname = get_hostname();
+    println!("{}", hostname);
+    return 0;
 }
 
-fn get_hostname() -> Result<String, String> {
+fn get_hostname() -> String {
     let mut name = String::with_capacity(HOSTNAME_MAX_LENGTH).to_c_str();
 
     let result = unsafe { gethostname(name.as_mut_ptr(), HOSTNAME_MAX_LENGTH as size_t) };
     if result == 0 {
-        Ok(name.to_string())
+        name.to_string()
     } else {
-        Err(String::from_str("Failed to get hostname"))
+        fail!("Failed to get hostname")
     }
 }

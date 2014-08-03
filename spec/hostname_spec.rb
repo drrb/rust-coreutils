@@ -30,6 +30,19 @@ EOF
     end
   end
 
+  describe "--help" do
+    it "prints the help message" do
+      expect("target/hostname --help").to emit(exit_code: 0, stdout: <<-EOF)
+Usage: target/hostname [options] [HOSTNAME]
+
+Options:
+    -V --version        Print the version number and exit
+    -h --help           Print this help message
+
+EOF
+    end
+  end
+
   describe "[HOSTNAME]" do
     context "when not root" do
       it "fails" do
