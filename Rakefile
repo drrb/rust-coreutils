@@ -1,3 +1,5 @@
+task :default => [:test]
+
 task :build do
   system "cargo build" or fail
 end
