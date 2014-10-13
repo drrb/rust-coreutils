@@ -5,6 +5,10 @@ version = "0.1.0"
 authors = ["drrb <drrrrrrrrrrrb@gmail.com>"]
 
 [[bin]]
+name = "echo"
+path = "src/echo.rs"
+
+[[bin]]
 name = "false"
 path = "src/false.rs"
 
