@@ -5,5 +5,5 @@ task :build do
 end
 
 task :test => :build do
-  system "rspec --color"
+  system "rspec --color" or fail "Tests had failures"
 end
