@@ -1,3 +1,7 @@
-language: ruby
-before_script:
-  - curl www.rust-lang.org/rustup.sh | sudo bash
+language: rust
+
+rust:
+  - nightly
+
+before_script: bundle install --verbose
+script: bundle exec rake test
