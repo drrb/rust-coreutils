@@ -36,7 +36,7 @@ fn run(args: Vec<String>) -> int {
         print(output.as_slice());
     } else {
         let output = input.to_base64(Config { char_set: Standard, pad: true, line_length: None});
-        print(output.as_bytes());
+        println!("{}", output);
     }
     return 0;
 }

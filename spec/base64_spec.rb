@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe "base64" do
   it "encodes stdin" do
-    pending
     expect("target/base64 <<< hello").to emit(stdout: "aGVsbG8K\n")
   end
 
@@ -13,7 +12,7 @@ describe "base64" do
 
     context "when stdin can't be decoded" do
       it "prints question marks for invalid blocks" do
-        pending
+        pending "Not implemented yet"
         expect("target/base64 --decode <<< hello").to emit(stdout: "??e\n")
       end
     end
