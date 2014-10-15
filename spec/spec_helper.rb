@@ -116,7 +116,7 @@ def match_the_output_of(command)
 end
 
 def run(command)
-  pid, stdin, stdout, stderr = Open4.popen4(command)
+  pid, stdin, stdout, stderr = Open4.popen4("bash -c '#{command.gsub("'", "'\\''")}'")
   ignored, status = Process::waitpid2 pid
   return [ stdout.read, stderr.read, status.exitstatus ]
 end
