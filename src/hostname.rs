@@ -1,10 +1,10 @@
 extern crate getopts;
 extern crate libc;
 
-use std::io::stdio;
-use std::os;
 use getopts::{optflag, getopts, usage, OptGroup};
 use libc::{c_char, c_int, size_t};
+use std::io::stdio;
+use std::os;
 
 static HOSTNAME_MAX_LENGTH: uint = 256;
 
@@ -15,18 +15,6 @@ extern {
 fn main() {
     let exit_status = run(os::args());
     os::set_exit_status(exit_status);
-}
-
-fn println(message: String) {
-    println!("{}", message);
-}
-
-fn err_println(message: String) {
-    let result = stdio::stderr().write(message.as_bytes());
-    match result {
-        Ok(_) => (),
-        Err(failure) => fail!(format!("Failed to write to stderr: {}", failure))
-    }
 }
 
 fn usage_message(program: &String, options: &[OptGroup]) -> String {
@@ -77,5 +65,17 @@ fn get_hostname() -> Result<String, String> {
         Ok(name.to_string())
     } else {
         Err("Failed to get hostname".to_string())
+    }
+}
+
+fn println(message: String) {
+    println!("{}", message);
+}
+
+fn err_println(message: String) {
+    let result = stdio::stderr().write(message.as_bytes());
+    match result {
+        Ok(_) => (),
+        Err(failure) => fail!(format!("Failed to write to stderr: {}", failure))
     }
 }
