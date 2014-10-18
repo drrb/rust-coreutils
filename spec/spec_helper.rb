@@ -1,4 +1,5 @@
 require "open4"
+require "tempfile"
 
 class String
   def outdent(spaces = -1)
