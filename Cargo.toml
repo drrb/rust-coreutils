@@ -9,6 +9,10 @@ name = "base64"
 path = "src/base64.rs"
 
 [[bin]]
+name = "basename"
+path = "src/basename.rs"
+
+[[bin]]
 name = "cat"
 path = "src/cat.rs"
 
