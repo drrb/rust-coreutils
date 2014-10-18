@@ -1,6 +1,8 @@
 use std::io::{stdio,File,EndOfFile,IoError,Reader};
 use std::os;
 
+const INPUT_BUFFER_SIZE: uint = 1024;
+
 fn main() {
     let exit_status = run(os::args());
     os::set_exit_status(exit_status);
@@ -14,7 +16,7 @@ fn run(args: Vec<String>) -> int {
         box File::open(&path).unwrap()
     };
 
-    let mut buffer = [0, ..1024];
+    let mut buffer = [0, ..INPUT_BUFFER_SIZE];
     loop {
         let bytes = match input.read(buffer) {
             Ok(bytes_read) => buffer.slice_to(bytes_read),
